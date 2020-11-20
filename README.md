@@ -43,10 +43,10 @@ In synapse create a link to your Cosmosdb and to your blob storage, link in the 
   
 Now let’s open an notebook sparks in synapse and use the following instruction 
 1.	Read the data from comsosdb using the olap storage and have no RU consume 
+```python
 # Read from Cosmos DB analytical store into a Spark DataFrame and display 10 rows from the DataFrame
 # To select a preferred list of regions in a multi-region Cosmos DB account, add .option("spark.cosmos.preferredRegions", "<Region1>,<Region2>")
 
-```python
 tosave = spark.read\
     .format("cosmos.olap")\
     .option("spark.synapse.linkedService", "mongoAPI")\

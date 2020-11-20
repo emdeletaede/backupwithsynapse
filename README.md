@@ -29,7 +29,7 @@ Some clients need for legacy reason to keep and have long term backup and some o
 Azure Synapse Link for Azure Cosmos DB is a cloud-native hybrid transactional and analytical processing (HTAP) capability that enables you to run near real-time analytics over operational data in Azure Cosmos DB. Azure Synapse Link creates a tight seamless integration between Azure Cosmos DB and Azure Synapse Analytics. 
 The following image shows the Azure Synapse Link integration with Azure Cosmos DB and Azure Synapse Analytics:
 
-
+![Cosmos DB account](media/.png)  
 
  
 The Azure Synapse Link can be use with Cosmosdb SQL API and with Mongo API, so all I will present and explain can be done for both type of API.
@@ -39,14 +39,14 @@ Immutable storage for Azure Blob storage enables users to store business-critica
 The main idea of the solutions is using the synapse link for Cosmosdb and synapse link for storage to read the Cosmosdb data and write to immutable storage, now let me show you how to make. 
 In synapse create a link to your Cosmosdb and to your blob storage, link in the sample 
 
-
+![Cosmos DB account](media/.png)  
   
 Now let’s open an notebook sparks in synapse and use the following instruction 
 1.	Read the data from comsosdb using the olap storage and have no RU consume 
 # Read from Cosmos DB analytical store into a Spark DataFrame and display 10 rows from the DataFrame
 # To select a preferred list of regions in a multi-region Cosmos DB account, add .option("spark.cosmos.preferredRegions", "<Region1>,<Region2>")
 
-```c# 
+```python
 tosave = spark.read\
     .format("cosmos.olap")\
     .option("spark.synapse.linkedService", "mongoAPI")\
@@ -58,14 +58,14 @@ display(tosave.limit(10))
 tosave.write.json('abfss://ede@edeadlsgen2.dfs.core.windows.net/ede/bakup/ede.json')
 3.	In case of restore need, you have just to load your data in a dataset by make a read in synapse using the instruction below 
 
-```
+```python
 %%pyspark
 restore = spark.read.load('abfss://ede@edeadlsgen2.dfs.core.windows.net/ede/bakup/ede.json', format='json')
 display(df2.limit(10))
 ```
 
 4.	Now you want to restore your backup to cosmosdb just write the dataframe to cosmosdb , this operations will consume RU but will write your data into your cosmosdb 
-```
+```python
 restore.write\
     .format("cosmos.oltp")\
     .option("spark.synapse.linkedService", "mongoAPI")\
@@ -77,14 +77,14 @@ restore.write\
 
 5.	If you want to restore not all the data but a subset of data this is very easy, just query the data you want to restore in the data frame and write like in the sample below 
 a.	Query using _ts columns for exemple 
-```
+```python
 
 restorequery = restore[(restore._ts <= 1605517579) ]
 display(df3)
 ```
 
 b.	And not write the new dataframe 
-```
+```python
 restorequery.write\
     .format("cosmos.oltp")\
     .option("spark.synapse.linkedService", "mongoAPI")\

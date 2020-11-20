@@ -29,7 +29,7 @@ Some clients need for legacy reason to keep and have long term backup and some o
 Azure Synapse Link for Azure Cosmos DB is a cloud-native hybrid transactional and analytical processing (HTAP) capability that enables you to run near real-time analytics over operational data in Azure Cosmos DB. Azure Synapse Link creates a tight seamless integration between Azure Cosmos DB and Azure Synapse Analytics. 
 The following image shows the Azure Synapse Link integration with Azure Cosmos DB and Azure Synapse Analytics:
 
-![Cosmos DB account](media/.png)  
+![synapse](media/as.png)  
 
  
 The Azure Synapse Link can be use with Cosmosdb SQL API and with Mongo API, so all I will present and explain can be done for both type of API.
@@ -39,7 +39,7 @@ Immutable storage for Azure Blob storage enables users to store business-critica
 The main idea of the solutions is using the synapse link for Cosmosdb and synapse link for storage to read the Cosmosdb data and write to immutable storage, now let me show you how to make. 
 In synapse create a link to your Cosmosdb and to your blob storage, link in the sample 
 
-![Cosmos DB account](media/.png)  
+![synapse](media/link.png)  
   
 Now let’s open an notebook sparks in synapse and use the following instruction 
 1.	Read the data from comsosdb using the olap storage and have no RU consume 
